@@ -658,6 +658,18 @@ video {
   height: 60px;
 }
 
+.h-\[600px\] {
+  height: 600px;
+}
+
+.min-h-\[155px\] {
+  min-height: 155px;
+}
+
+.min-h-\[600px\] {
+  min-height: 600px;
+}
+
 .w-\[115px\] {
   width: 115px;
 }
@@ -867,6 +879,11 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
 .underline {
