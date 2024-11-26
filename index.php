@@ -21,7 +21,7 @@
       <p class="translate-x-[150px] font-bold text-2xl uppercase">
         Lukk<span class="text-[#6C63FF]">shield</span>
       </p>
-      <ul class="translate-x-[-150px] flex space-x-6 text-2xl font-normal">
+      <ul class="translate-x-[-150px] flex space-x-8 text-2xl font-normal">
         <li><a href="/privacy-policy">Privacy Policy</a></li>
         <li><a href="/auth/login">Login</a></li>
       </ul>
