@@ -2,7 +2,13 @@
   "name": "lukkshh/lukkshield",
   "type": "project",
   "autoload": {
-    "psr-4": {}
+    "psr-4": {
+      "Utils\\": "src/Utils",
+      "Auth\\": "src/Auth",
+      "Database\\": "src/Database"
+    }
   },
-  "require": {}
+  "require": {
+    "vlucas/phpdotenv": "^5.6"
+  }
 }
