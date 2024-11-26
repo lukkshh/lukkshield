@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -52,5 +53,6 @@
       <p class="font-semibold">2024 © ALL RIGHTS RESERVED | LUKKSHIELD</p>
       <a href="">LUKKSHH</a>
     </footer>
+    <?php  require "./components/cookie-consent.php" ?>
   </body>
 </html>
