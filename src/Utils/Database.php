@@ -22,15 +22,21 @@ class Database {
      * variables and uses them to establish a connection to the MySQL database.
      */
     public function __construct() {
+
         $this->host = $_ENV["db_host"];
         $this->dbname = $_ENV["db_name"];
         $this->username = $_ENV["db_username"]; 
         $this->password = $_ENV["db_password"];
         
-        $this->pdo = new PDO(
-            "mysql:host=$this->host;dbname=$this->dbname",
-            $this->username,
-            $this->password);
+        try {
+            $this->pdo = new PDO(
+                "mysql:host=$this->host;dbname=$this->dbname",
+                $this->username,
+                $this->password);
+        } catch (\PDOException $e) {
+            http_response_code(500);
+            exit;
+        }
         
     }
     
