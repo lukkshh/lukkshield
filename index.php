@@ -1,4 +1,11 @@
-<?php session_start(); ?>
+<?php session_start(); require "vendor/autoload.php";
+
+use Utils\Tracker;
+
+$tracker = new Tracker();
+$tracker->track();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
