@@ -26,18 +26,21 @@ password.addEventListener("input", () => {
   }
 });
 
+repeatPassword.addEventListener("input", () => {
+  if (password.value !== repeatPassword.value) {
+    rp_error.innerText = "Passwords do not match!";
+    signupBtn.disabled = true;
+    return;
+  } else {
+    rp_error.innerText = "";
+  }
+});
+
 setInterval(() => {
   if (email.value != "" && password.value != "" && repeatPassword.value != "") {
-    if (password.value !== repeatPassword.value) {
-      rp_error.innerText = "Passwords do not match!";
-      return;
-    }
-    if (password.value.length < 8) {
-      return;
-    }
+    if (!emailRegex.test(email.value)) return;
+    if (password.value.length < 8) return;
+    if (password.value !== repeatPassword.value) return;
     signupBtn.disabled = false;
-    rp_error.innerText = "";
-  } else {
-    signupBtn.disabled = true;
   }
 }, 500);
