@@ -554,6 +554,10 @@ video {
   display: none;
 }
 
+.visible {
+  visibility: visible;
+}
+
 .static {
   position: static;
 }
@@ -614,12 +618,20 @@ video {
   margin-top: 3rem;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
 .mt-8 {
   margin-top: 2rem;
 }
 
 .flex {
   display: flex;
+}
+
+.contents {
+  display: contents;
 }
 
 .h-1\/2 {
@@ -658,6 +670,10 @@ video {
   height: 60px;
 }
 
+.min-h-\[600px\] {
+  min-height: 600px;
+}
+
 .w-\[115px\] {
   width: 115px;
 }
@@ -668,6 +684,10 @@ video {
 
 .w-\[220px\] {
   width: 220px;
+}
+
+.w-\[385px\] {
+  width: 385px;
 }
 
 .w-\[390px\] {
@@ -688,14 +708,6 @@ video {
 
 .w-full {
   width: 100%;
-}
-
-.w-\[389px\] {
-  width: 389px;
-}
-
-.w-\[385px\] {
-  width: 385px;
 }
 
 .flex-1 {
@@ -728,10 +740,6 @@ video {
 
 .items-center {
   align-items: center;
-}
-
-.justify-start {
-  justify-content: flex-start;
 }
 
 .justify-center {
@@ -793,11 +801,6 @@ video {
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
-}
-
-.bg-red-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
 }
 
 .bg-transparent {
@@ -867,6 +870,10 @@ video {
   text-transform: uppercase;
 }
 
+.lowercase {
+  text-transform: lowercase;
+}
+
 .text-\[\#6C63FF\] {
   --tw-text-opacity: 1;
   color: rgb(108 99 255 / var(--tw-text-opacity, 1));
@@ -875,6 +882,11 @@ video {
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
 .text-white {
@@ -899,10 +911,22 @@ video {
   outline-offset: 2px;
 }
 
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 .transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+.disabled\:cursor-not-allowed:disabled {
+  cursor: not-allowed;
+}
+
+.disabled\:bg-white\/50:disabled {
+  background-color: rgb(255 255 255 / 0.5);
 }
 
 .peer:-moz-placeholder-shown ~ .peer-placeholder-shown\:left-4 {
