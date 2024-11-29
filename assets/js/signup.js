@@ -21,6 +21,9 @@ password.addEventListener("input", () => {
   if (password.value.length < 8) {
     password_error.innerText = "Password must be at least 8 characters!";
     return;
+  } else if (password.value.length >= 16) {
+    password_error.innerText = "Password must be less than 16 characters!";
+    return;
   } else {
     password_error.innerText = "";
   }
@@ -39,7 +42,6 @@ repeatPassword.addEventListener("input", () => {
 setInterval(() => {
   if (email.value != "" && password.value != "" && repeatPassword.value != "") {
     if (!emailRegex.test(email.value)) return;
-    email_error.innerText = "";
     if (password.value.length < 8) return;
     if (password.value !== repeatPassword.value) return;
     signupBtn.disabled = false;
