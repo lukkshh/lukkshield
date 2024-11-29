@@ -5,6 +5,14 @@ use Utils\Tracker;
 $tracker = new Tracker();
 $tracker->track();
 
+if(isset($_POST["login"])){
+
+  $auth = new Auth\Auth();
+
+  $auth->login();
+
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +52,7 @@ $tracker->track();
         </div>
         <form
           action=""
+          method="POST"
           class="flex flex-col justify-center items-center space-y-6 mt-8"
         >
           <div class="relative">
@@ -51,6 +60,7 @@ $tracker->track();
               autocomplete="off"
               class="peer p-4 placeholder-transparent outline-none text-white w-[390px] h-[55px] border-[#ffffff] border rounded-xl bg-transparent"
               id="email"
+              name="email"
               type="email"
               placeholder=" "
             />
@@ -59,13 +69,14 @@ $tracker->track();
               class="absolute pl-1 pr-1 transition-all text-white bg-[#222222] peer-placeholder-shown:top-4 peer-placeholder-shown:left-4 peer-focus:-top-3 peer-focus:left-4 -top-3 left-4"
               >Email</label
             >
-            <div id="email_error" class="text-red-500 w-[385px]"></div>
+            <div id="email_error" class="text-red-500 w-[385px]"> <?php echo isset($_SESSION["error"]) ? $_SESSION["error"] : "" ?> </div>
           </div>
           <div class="relative">
             <input
               autocomplete="off"
               class="peer p-4 placeholder-transparent outline-none text-white w-[390px] h-[55px] border-[#ffffff] border rounded-xl bg-transparent"
               id="password"
+              name="password"
               type="password"
               placeholder=" "
             />
@@ -84,6 +95,7 @@ $tracker->track();
           <button
             id="login_btn"
             disabled
+            name="login"
             class="w-[180px] h-[50px] rounded-2xl bg-white text-[20px] font-semibold disabled:bg-white/50 disabled:cursor-not-allowed"
           >
             Login
@@ -100,3 +112,4 @@ $tracker->track();
     </footer>
   </body>
 </html>
+<?php unset($_SESSION["error"]) ?>
