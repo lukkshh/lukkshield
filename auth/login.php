@@ -1,5 +1,10 @@
 <?php session_start(); require __DIR__."/../vendor/autoload.php";
 
+if(isset($_SESSION["user"])) {
+  header("Location: /dashboard");
+  die;
+}
+
 use Utils\Tracker;
 
 $tracker = new Tracker();
@@ -30,7 +35,7 @@ if(isset($_POST["login"])){
     <script src="/assets/js/login.js" defer></script>
     <title>Lukkshield | Login</title>
   </head>
-  <body class="bg-black">
+  <body class="bg-black font-roboto">
     <header class="flex items-center justify-between h-[100px] text-white">
       <p class="translate-x-[150px] font-bold text-2xl uppercase">
         Lukk<span class="text-[#6C63FF]">shield</span>

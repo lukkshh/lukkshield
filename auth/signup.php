@@ -29,7 +29,7 @@ if(isset($_POST["submit"])){
     <script src="/assets/js/signup.js" defer></script>
     <title>Lukkshield | Login</title>
   </head>
-  <body class="bg-black">
+  <body class="bg-black font-roboto">
     <header class="flex items-center justify-between h-[100px] text-white">
       <p class="translate-x-[150px] font-bold text-2xl uppercase">
         Lukk<span class="text-[#6C63FF]">shield</span>
