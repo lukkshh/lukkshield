@@ -17,6 +17,7 @@ email.addEventListener("blur", () => {
 setInterval(() => {
   if (email.value != "" && password.value != "") {
     if (!emailRegex.test(email.value)) return;
+    email_error.innerText = "";
     loginBtn.disabled = false;
   }
 }, 500);
