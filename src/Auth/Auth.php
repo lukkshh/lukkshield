@@ -99,4 +99,22 @@ class Auth {
         header("Location: /auth/login");
     }
 
+    /**
+     * Fetches user data from the user_credentials table
+     *
+     * @return array|false - Returns an array of user data if found, otherwise false
+     */
+    public function GetUserData(){
+
+        $stmt = $this->db->prepare("SELECT * FROM user_credentials WHERE user_id = :id");
+        $stmt->execute(array(":id" => $_SESSION["user"]));
+
+        if ($stmt->rowCount() > 0) {
+            $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            return $data;
+        } else {
+            return false;
+        }
+    }
+
 }
