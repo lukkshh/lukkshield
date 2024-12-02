@@ -105,7 +105,6 @@ class Auth {
      * @return array|false - Returns an array of user data if found, otherwise false
      */
     public function GetUserData(){
-
         $stmt = $this->db->prepare("SELECT * FROM user_credentials WHERE user_id = :id");
         $stmt->execute(array(":id" => $_SESSION["user"]));
 
@@ -117,4 +116,75 @@ class Auth {
         }
     }
 
+    public function DeleteUser($id) {
+
+    }
+
+
+    public function DeleteUserCredential() {
+        
+        $stmt = $this->db->prepare("SELECT * FROM user_credentials WHERE user_id = :user_id AND id = :id" );
+        $stmt->execute(array(":user_id" => $_SESSION["user"], ":id" => $_POST["id"]));
+
+        if ($stmt->rowCount() > 0) {
+            $_SESSION["success"] = "Deleted successfully!";
+            $stmt = $this->db->prepare("DELETE FROM user_credentials WHERE user_id = :user_id AND id = :id" );
+            $stmt->execute(array(":user_id" => $_SESSION["user"], ":id" => $_POST["id"]));
+            header("Location: /dashboard");
+            die;
+        } else {
+            $_SESSION["error"] = "You do not have permission to delete this credential!";
+            header("Location: /dashboard");
+            die;
+        }
+    }
+
+    public function EditUserCredential() {
+        $stmt = $this->db->prepare("SELECT * FROM user_credentials WHERE user_id = :user_id AND id = :id" );
+        $stmt->execute(array(":user_id" => $_SESSION["user"], ":id" => $_POST["id"]));
+
+
+        $app = htmlspecialchars($_POST["app"]);
+        $email = htmlspecialchars($_POST["email"]);
+        $password = htmlspecialchars($_POST["password"]);
+        
+        if($app == "" || $email == "" || $password == "") {
+            $_SESSION["error"] = "Please fill in all fields!";
+            header("Location: /dashboard");
+            die;
+        }
+
+        if ($stmt->rowCount() > 0) {
+            $_SESSION["success"] = "Edited successfully!";
+
+            $stmt = $this->db->prepare("UPDATE user_credentials SET app = :app , email = :email, password = :password WHERE user_id = :user_id AND id = :id" );
+            $stmt->execute(array(":app" => $app, ":email" => $email, ":password" => $password, ":user_id" => $_SESSION["user"], ":id" => $_POST["id"]));
+            
+            header("Location: /dashboard");
+            die;
+        } else {
+            $_SESSION["error"] = "You do not have permission to edit this credential!";
+            header("Location: /dashboard");
+            die;
+        }
+    }
+
+    public function AddNewCredential() {    
+        $app = htmlspecialchars($_POST["app"]);
+        $email = htmlspecialchars($_POST["email"]);
+        $password = htmlspecialchars($_POST["password"]);
+
+        if($app == "" || $email == "" || $password == "") {
+            $_SESSION["error"] = "Please fill in all fields!";
+            header("Location: /dashboard");
+            die;
+        }
+
+
+        $stmt = $this->db->prepare("INSERT INTO user_credentials (user_id, app, email, password) VALUES (:user_id, :app, :email, :password)");
+        $stmt->execute(array(":user_id" => $_SESSION["user"], ":app" => $app, ":email" => $email, ":password" => $password));
+        $_SESSION["success"] = "Added successfully!";
+        header("Location: /dashboard");
+        die;
+    }
 }
