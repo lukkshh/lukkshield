@@ -6,6 +6,7 @@ if(!isset($_SESSION["user"])) {
 }
 
 use Auth\Auth;
+use Utils\Cipher;
 
 $auth = new Auth();
 
@@ -26,9 +27,13 @@ if(isset($_POST["add"])){
     $auth->AddNewCredential();
 }
 
+// if(isset($_SESSION["key"])){
+    $cipher = new Cipher();
 
-$data = $auth->GetUserData();
-$data = array_reverse($data);
+    $data = $auth->GetUserData();
+    $data = array_reverse($data);
+// }
+
 
 ?>
 <!DOCTYPE html>
@@ -52,7 +57,7 @@ $data = array_reverse($data);
         </ul>
     </header>
     <section id="section">  
-        <?php if($data): ?>
+        <?php if(isset($data)): ?>
             <div class="grid grid-cols-[100px_0.5fr_0.8fr_1fr_0.4fr] row-auto m-6">
                 <!-- Header -->
                 <div class="border-[1px] text-[#6C63FF] border-zinc-600 bg-zinc-900 h-[50px] flex justify-center items-center rounded-tl-lg">#</div>
@@ -72,7 +77,7 @@ $data = array_reverse($data);
                         <?= $item['email'] ?>
                     </div>
                     <div class='<?= $bgClass ?> p-4 bg-zinc-800 border-[1px] border-zinc-600 min-h-[50px] flex justify-center items-center'>
-                        <?= $item['password'] ?>
+                        <?= $cipher->decrypt($item['password']) ?>
                     </div>
                     <div class='<?= $bgClass ?> bg-zinc-800 border-[1px] border-zinc-600 min-h-[50px] space-x-4 flex justify-center items-center'>
                         <button onclick="Edit(event)" data-id="<?= $item["id"] ?>" data-app="<?= $item["app"] ?>" data-email="<?= $item["email"] ?>" data-password="<?= $item["password"] ?>" type="" class="w-[80px] h-[35px] bg-gray-600 border-gray-700 border-2 rounded-md">Edit</button>

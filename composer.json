@@ -5,7 +5,8 @@
     "psr-4": {
       "Utils\\": "src/Utils",
       "Auth\\": "src/Auth",
-      "Database\\": "src/Database"
+      "Database\\": "src/Database",
+      "Cipher\\": "src/Cipher"
     }
   },
   "require": {
