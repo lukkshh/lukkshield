@@ -29,9 +29,7 @@ if(isset($_POST["add"])){
 
 // if(isset($_SESSION["key"])){
     $cipher = new Cipher();
-
     $data = $auth->GetUserData();
-    $data = array_reverse($data);
 // }
 
 
@@ -57,7 +55,7 @@ if(isset($_POST["add"])){
         </ul>
     </header>
     <section id="section">  
-        <?php if(isset($data)): ?>
+        <?php if($data): ?>
             <div class="grid grid-cols-[100px_0.5fr_0.8fr_1fr_0.4fr] row-auto m-6">
                 <!-- Header -->
                 <div class="border-[1px] text-[#6C63FF] border-zinc-600 bg-zinc-900 h-[50px] flex justify-center items-center rounded-tl-lg">#</div>
