@@ -2,6 +2,10 @@
 
 namespace Utils;
 
+set_error_handler(function ($severity, $message, $file, $line) {
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__."/../../");
@@ -67,7 +71,12 @@ class Cipher {
 
         $ciphertext = substr($data, $ivLength); 
 
-        return openssl_decrypt($ciphertext, $this->cipher, $this->key, 0, $iv);
+        try {
+            $response = openssl_decrypt($ciphertext, $this->cipher, $this->key, 0, $iv);
+            return $response;
+        } catch (\Exception $e) {
+            return "Something Went Wrong!";
+        }
     }
     
 }   
