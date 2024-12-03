@@ -27,10 +27,12 @@ if(isset($_POST["add"])){
     $auth->AddNewCredential();
 }
 
-// if(isset($_SESSION["key"])){
+$_SESSION["key"] = "key";
+
+if(isset($_SESSION["key"])){
     $cipher = new Cipher();
     $data = $auth->GetUserData();
-// }
+}   
 
 
 ?>
@@ -49,12 +51,26 @@ if(isset($_POST["add"])){
         <p class="translate-x-[150px] font-bold text-2xl uppercase">
             Lukk<span class="text-[#6C63FF]">shield</span>
         </p>
-        <ul class="translate-x-[-150px] flex space-x-8 text-2xl font-normal">
-            <li><button onclick="open_add_modal()">Add</button></li>
-            <form action="" method="POST"><button type="submit" name="logout">Logout</button></form>
-        </ul>
+        <div class="space-x-4">
+            <?php if(isset($_SESSION["key"])): ?>
+                <button class="w-[80px] h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md" onclick="open_add_modal()">Add</button>
+                <button class=" pl-4 pr-4 h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md">Change Key</button>
+                <?php endif; ?>
+            <?php if(!isset($_SESSION["key"])):  ?>
+                <form action="get-key" method="get">
+                    <button type="submit" name="generate-key" class="w-[80px] h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md">Get Key</button>    
+                </form>
+                <?php else: ?>
+                    <button type="submit" name="delete" class="w-[140px] h-[35px] bg-red-700 border-red-800 text-base border-2 rounded-md">Regenerate Key</button>
+                    <?php endif; ?>
+            </div>
+            <div class="translate-x-[-150px] flex justify-center items-center space-x-4">
+                    <form action="" method="POST"><button class="w-[80px] h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md" type="submit" name="logout">Logout</button></form>
+            </div>
     </header>
     <section id="section">  
+        
+        <?php if(isset($_SESSION["key"])):  ?>
         <?php if($data): ?>
             <div class="grid grid-cols-[100px_0.5fr_0.8fr_1fr_0.4fr] row-auto m-6">
                 <!-- Header -->
@@ -78,7 +94,7 @@ if(isset($_POST["add"])){
                         <?= $cipher->decrypt($item['password']) ?>
                     </div>
                     <div class='<?= $bgClass ?> bg-zinc-800 border-[1px] border-zinc-600 min-h-[50px] space-x-4 flex justify-center items-center'>
-                        <button onclick="Edit(event)" data-id="<?= $item["id"] ?>" data-app="<?= $item["app"] ?>" data-email="<?= $item["email"] ?>" data-password="<?= $item["password"] ?>" type="" class="w-[80px] h-[35px] bg-gray-600 border-gray-700 border-2 rounded-md">Edit</button>
+                        <button onclick="Edit(event)" data-id="<?= $item["id"] ?>" data-app="<?= $item["app"] ?>" data-email="<?= $item["email"] ?>" data-password="<?= $cipher->decrypt($item["password"]) ?>" type="" class="w-[80px] h-[35px] bg-gray-600 border-gray-700 border-2 rounded-md">Edit</button>
                         <form action="" method="POST">  
                             <input type="hidden" name="id" value="<?= $item["id"] ?>">
                             <button type="submit" name="delete" class="w-[80px] h-[35px] bg-red-700 border-red-800 border-2 rounded-md">Delete</button>
@@ -86,18 +102,21 @@ if(isset($_POST["add"])){
                     </div>
                 <?php $id++; endforeach; ?>
             </div>
+            <?php endif; ?>
+        <?php else: ?>
+            <div>Add Key</div>
         <?php endif; ?>
         <?php if(isset($_SESSION["error"])): ?>
-            <div id="error" class="shake-horizontal absolute bottom-5 left-5 w-[600px] pl-4 pr-6 flex items-center justify-between text-base h-[70px] bg-red-800 border-2 border-red-700 rounded-lg">
+            <div id="error" class="shake-horizontal absolute bottom-5 left-5 pl-4 pr-6 flex items-center justify-between text-base h-[70px] bg-red-800 border-2 border-red-700 rounded-lg">
                 <?php echo $_SESSION["error"]; ?> 
-                <button onclick="document.getElementById('error').remove()">X</button>
+                <button class="ml-6" onclick="document.getElementById('error').remove()">X</button>
             </div>
             <script>setTimeout(()=>{document.getElementById("error").classList.add("scale-out-center"),setTimeout(()=>{document.getElementById("error").remove()},500)},2700);</script>
         <?php endif; ?>
         <?php if(isset($_SESSION["success"])): ?>
-            <div id="success" class="fade-in absolute bottom-5 left-5 w-[220px] pl-4 pr-6 flex items-center justify-between text-base h-[55px] bg-green-800 border-2 border-green-700 rounded-lg">
+            <div id="success" class="fade-in absolute bottom-5 left-5 pl-4 pr-6 flex items-center justify-between text-base h-[55px] bg-green-800 border-2 border-green-700 rounded-lg">
                 <?php echo $_SESSION["success"]; ?> 
-                <button onclick="document.getElementById('success').remove()">X</button>
+                <button class="ml-6" onclick="document.getElementById('success').remove()">X</button>
             </div>
             <script>setTimeout(()=>{document.getElementById("success").classList.add("scale-out-center"),setTimeout(()=>{document.getElementById("success").remove()},500)},2500);</script>
         <?php endif; ?>
