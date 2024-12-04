@@ -5,3 +5,4 @@ node_modules
 input.css
 .htaccess
 .prettierignore
+*.bat

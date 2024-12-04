@@ -2,15 +2,18 @@
 
 namespace Auth;
 
+use Utils\Cipher;
 use Utils\Database;
 
 class Auth {
     private $db;
+    private $cipher;
 
     public function __construct() {
         $pdo = new Database();
         $this->db = $pdo->connection();
-        unset($pdo); 
+        $this->cipher = new Cipher(); 
+        unset($pdo);
     }
 
     public function login() {
@@ -145,8 +148,8 @@ class Auth {
 
 
         $app = htmlspecialchars($_POST["app"]);
-        $email = htmlspecialchars($_POST["email"]);
-        $password = htmlspecialchars($_POST["password"]);
+        $email = $this->cipher->encrypt(htmlspecialchars($_POST["email"]));
+        $password = $this->cipher->encrypt(htmlspecialchars($_POST["password"]));
         
         if($app == "" || $email == "" || $password == "") {
             $_SESSION["error"] = "Please fill in all fields!";
@@ -171,8 +174,8 @@ class Auth {
 
     public function AddNewCredential() {    
         $app = htmlspecialchars($_POST["app"]);
-        $email = htmlspecialchars($_POST["email"]);
-        $password = htmlspecialchars($_POST["password"]);
+        $email = $this->cipher->encrypt(htmlspecialchars($_POST["email"]));
+        $password = $this->cipher->encrypt(htmlspecialchars($_POST["password"]));
 
         if($app == "" || $email == "" || $password == "") {
             $_SESSION["error"] = "Please fill in all fields!";

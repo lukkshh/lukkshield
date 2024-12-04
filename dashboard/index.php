@@ -27,13 +27,26 @@ if(isset($_POST["add"])){
     $auth->AddNewCredential();
 }
 
-$_SESSION["key"] = "key";
-
 if(isset($_SESSION["key"])){
     $cipher = new Cipher();
-    $data = $auth->GetUserData();
 }   
 
+$data = $auth->GetUserData();
+
+if(isset($_FILES['key']) && $_FILES['key']['error'] === UPLOAD_ERR_OK) {
+    $cipher = new Cipher();
+    $cipher->readKey();
+}
+
+if(isset($_POST["generate-key"])) {
+    $cipher = new Cipher();
+    $cipher->generateKey();
+}
+
+if(isset($_POST["regenerate-key"])) {
+    $cipher = new Cipher();
+    $cipher->regenerateKey();
+}
 
 ?>
 <!DOCTYPE html>
@@ -56,12 +69,8 @@ if(isset($_SESSION["key"])){
                 <button class="w-[80px] h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md" onclick="open_add_modal()">Add</button>
                 <button class=" pl-4 pr-4 h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md">Change Key</button>
                 <?php endif; ?>
-            <?php if(!isset($_SESSION["key"])):  ?>
-                <form action="get-key" method="get">
-                    <button type="submit" name="generate-key" class="w-[80px] h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md">Get Key</button>    
-                </form>
-                <?php else: ?>
-                    <button type="submit" name="delete" class="w-[140px] h-[35px] bg-red-700 border-red-800 text-base border-2 rounded-md">Regenerate Key</button>
+            <?php if(isset($_SESSION["key"]) || $data):  ?>
+                    <button onclick="open_regenerate_modal()" type="submit" name="delete" class="w-[140px] h-[35px] bg-red-700 border-red-800 text-base border-2 rounded-md">Regenerate Key</button>
                     <?php endif; ?>
             </div>
             <div class="translate-x-[-150px] flex justify-center items-center space-x-4">
@@ -69,7 +78,6 @@ if(isset($_SESSION["key"])){
             </div>
     </header>
     <section id="section">  
-        
         <?php if(isset($_SESSION["key"])):  ?>
         <?php if($data): ?>
             <div class="grid grid-cols-[100px_0.5fr_0.8fr_1fr_0.4fr] row-auto m-6">
@@ -88,13 +96,13 @@ if(isset($_SESSION["key"])){
                         <p title='<?= $item["app"] ?>' class='truncate w-3/4 text-center'><?= $item['app'] ?></p>
                     </div>
                     <div class='<?= $bgClass ?> p-4 bg-zinc-800 border-[1px] border-zinc-600 min-h-[50px] flex justify-center items-center'>
-                        <?= $item['email'] ?>
+                        <?= $cipher->decrypt($item['email']) ?>
                     </div>
                     <div class='<?= $bgClass ?> p-4 bg-zinc-800 border-[1px] border-zinc-600 min-h-[50px] flex justify-center items-center'>
                         <?= $cipher->decrypt($item['password']) ?>
                     </div>
                     <div class='<?= $bgClass ?> bg-zinc-800 border-[1px] border-zinc-600 min-h-[50px] space-x-4 flex justify-center items-center'>
-                        <button onclick="Edit(event)" data-id="<?= $item["id"] ?>" data-app="<?= $item["app"] ?>" data-email="<?= $item["email"] ?>" data-password="<?= $cipher->decrypt($item["password"]) ?>" type="" class="w-[80px] h-[35px] bg-gray-600 border-gray-700 border-2 rounded-md">Edit</button>
+                        <button onclick="Edit(event)" data-id="<?= $item["id"] ?>" data-app="<?= $item["app"] ?>" data-email="<?= $cipher->decrypt($item["email"]) ?>" data-password="<?= $cipher->decrypt($item["password"]) ?>" type="" class="w-[80px] h-[35px] bg-gray-600 border-gray-700 border-2 rounded-md">Edit</button>
                         <form action="" method="POST">  
                             <input type="hidden" name="id" value="<?= $item["id"] ?>">
                             <button type="submit" name="delete" class="w-[80px] h-[35px] bg-red-700 border-red-800 border-2 rounded-md">Delete</button>
@@ -104,7 +112,39 @@ if(isset($_SESSION["key"])){
             </div>
             <?php endif; ?>
         <?php else: ?>
-            <div>Add Key</div>
+            <?php if($data): ?>
+                <div class="flex justify-center items-center min-h-[400px] space-x-4">
+                    <form action="" method="POST" enctype="multipart/form-data" id="key_upload">
+                            <input type="file" hidden name="key" id="key" accept=".key">
+                            <label for="key" class="flex flex-col justify-center items-center cursor-pointer space-y-2 rounded-lg min-w-[290px] min-h-[180px] bg-[#222222]">
+                                <p class="text-xl font-semibold">Upload Key</p>
+                                <img class="w-[100px] h-[100px]" src="/static/upload.svg" alt="upload logo">
+                            </label>
+                    </form>
+                    <script>document.getElementById('key').addEventListener('change', function() {document.getElementById('key_upload').submit();});</script>   
+                </div>
+            <?php else: ?>                    
+                <div class="flex justify-center items-center min-h-[100px] text-2xl font-semibold">Welcome, To Get Started:</div>
+                <div class="flex justify-center items-center min-h-[400px] space-x-4">
+                    <form action="" method="POST" enctype="multipart/form-data" id="key_upload">
+                        <input type="file" hidden name="key" id="key" accept=".key">
+                        <label for="key" class="flex flex-col justify-center items-center cursor-pointer space-y-2 rounded-lg min-w-[290px] min-h-[180px] bg-[#222222]">
+                            <p class="text-xl font-semibold">Upload Key</p>
+                            <img class="w-[100px] h-[100px]" src="/static/upload.svg" alt="upload logo">
+                        </label>
+                    </form>
+                    <script>document.getElementById('key').addEventListener('change', function() {document.getElementById('key_upload').submit();});</script>
+                    
+                    <p class="text-2xl font-semibold">OR</p>
+                    <form action="" method="POST">
+                        <button type="submit" name="generate-key" class="flex flex-col justify-center items-center cursor-pointer space-y-2 rounded-lg min-w-[290px] min-h-[180px] bg-[#222222]">
+                            <p class="text-xl font-semibold">Get Key</p>
+                            <img class="w-[100px] h-[100px]" src="/static/key.svg" alt="key logo">
+                        </button>
+                    </form>
+                </div>
+            <?php endif; ?>
+
         <?php endif; ?>
         <?php if(isset($_SESSION["error"])): ?>
             <div id="error" class="shake-horizontal absolute bottom-5 left-5 pl-4 pr-6 flex items-center justify-between text-base h-[70px] bg-red-800 border-2 border-red-700 rounded-lg">

@@ -21,11 +21,34 @@ class Cipher {
         $this->key = isset($_SESSION["key"]);
     }
 
+    public function regenerateKey() {
+        if(isset($_SESSION["key"])) { unset($_SESSION["key"]); }
+
+        $db = new Database();
+        $db = $db->connection();
+
+        $stmt = $db->prepare("DELETE FROM user_credentials WHERE user_id = :user_id" );
+        $stmt->execute(array(":user_id" => $_SESSION["user"]));
+
+        $key = openssl_random_pseudo_bytes(32);
+
+        $filename = 'do_not_share.key';
+
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Length: ' . strlen($key));
+
+        echo $key;
+        
+        $_SESSION["key"] = $key;
+        exit();
+    }
+
     public function generateKey() {
 
         $key = openssl_random_pseudo_bytes(32);
 
-        $filename = 'encryption_key.key';
+        $filename = 'do_not_share.key';
 
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -33,6 +56,31 @@ class Cipher {
 
         echo $key;
         die;
+    }
+
+    public function readKey() {
+        if(isset($_FILES['key']) && $_FILES['key']['error'] === UPLOAD_ERR_OK) {
+        
+            if(pathinfo($_FILES["key"]["name"], PATHINFO_EXTENSION) !== "key") {
+                $_SESSION["error"] = "Please upload a .key file.";
+                header("Location: /dashboard");
+                die;
+            }
+            
+            $key = file_get_contents($_FILES["key"]["tmp_name"]);
+
+            if(strlen($key) !== 32) {
+                $_SESSION["error"] = "Please upload a valid key file.";
+                header("Location: /dashboard");
+                die;
+            }
+
+            $_SESSION["key"] = $key;
+            header("Location: /dashboard");
+            die;
+        } else {
+            $_SESSION["error"] = "Please upload a key file.";
+        }
     }
 
     /**
@@ -75,7 +123,7 @@ class Cipher {
             $response = openssl_decrypt($ciphertext, $this->cipher, $this->key, 0, $iv);
             return $response;
         } catch (\Exception $e) {
-            return "Something Went Wrong!";
+            return "Something went wrong! The key you provided is incorrect, Please verify the key and try again";
         }
     }
     
