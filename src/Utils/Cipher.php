@@ -41,7 +41,7 @@ class Cipher {
         echo $key;
         
         $_SESSION["key"] = $key;
-        exit();
+        die;
     }
 
     public function generateKey() {
@@ -55,6 +55,7 @@ class Cipher {
         header('Content-Length: ' . strlen($key));
 
         echo $key;
+        $_SESSION["key"] = $key;
         die;
     }
 

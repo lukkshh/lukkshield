@@ -63,11 +63,11 @@ if(isset($_POST["regenerate-key"])) {
     <header class="flex items-center justify-between h-[100px] text-white">
         <p class="translate-x-[150px] font-bold text-2xl uppercase">
             Lukk<span class="text-[#6C63FF]">shield</span>
-        </p>
+        </p>    
         <div class="space-x-4">
             <?php if(isset($_SESSION["key"])): ?>
                 <button class="w-[80px] h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md" onclick="open_add_modal()">Add</button>
-                <button class=" pl-4 pr-4 h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md">Change Key</button>
+                <button onclick="open_change_key_modal()" class=" pl-4 pr-4 h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md">Change Key</button>
                 <?php endif; ?>
             <?php if(isset($_SESSION["key"]) || $data):  ?>
                     <button onclick="open_regenerate_modal()" type="submit" name="delete" class="w-[140px] h-[35px] bg-red-700 border-red-800 text-base border-2 rounded-md">Regenerate Key</button>
@@ -136,12 +136,13 @@ if(isset($_POST["regenerate-key"])) {
                     <script>document.getElementById('key').addEventListener('change', function() {document.getElementById('key_upload').submit();});</script>
                     
                     <p class="text-2xl font-semibold">OR</p>
-                    <form action="" method="POST">
+                    <form id="generate_key_form" action="" method="POST">
                         <button type="submit" name="generate-key" class="flex flex-col justify-center items-center cursor-pointer space-y-2 rounded-lg min-w-[290px] min-h-[180px] bg-[#222222]">
                             <p class="text-xl font-semibold">Get Key</p>
                             <img class="w-[100px] h-[100px]" src="/static/key.svg" alt="key logo">
                         </button>
                     </form>
+                    <script>const form = document.getElementById('generate_key_form');form.addEventListener('submit', function(event) {setTimeout(function() {location.reload();}, 1000);});</script>
                 </div>
             <?php endif; ?>
 
