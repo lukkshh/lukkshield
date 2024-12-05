@@ -53,15 +53,15 @@ if(isset($_POST["regenerate-key"])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <link rel="stylesheet" href="/assets/css/dashboard.css">
     <title>Lukkshield | Dashboard</title>
     <style>.shake-horizontal{-webkit-animation:shake-horizontal .8s cubic-bezier(.455,.03,.515,.955) both;animation:shake-horizontal .8s cubic-bezier(.455,.03,.515,.955) both}@-webkit-keyframes shake-horizontal{0%,100%{-webkit-transform:translateX(0);transform:translateX(0)}10%,30%,50%,70%{-webkit-transform:translateX(-10px);transform:translateX(-10px)}20%,40%,60%{-webkit-transform:translateX(10px);transform:translateX(10px)}80%{-webkit-transform:translateX(8px);transform:translateX(8px)}90%{-webkit-transform:translateX(-8px);transform:translateX(-8px)}}@keyframes shake-horizontal{0%,100%{-webkit-transform:translateX(0);transform:translateX(0)}10%,30%,50%,70%{-webkit-transform:translateX(-10px);transform:translateX(-10px)}20%,40%,60%{-webkit-transform:translateX(10px);transform:translateX(10px)}80%{-webkit-transform:translateX(8px);transform:translateX(8px)}90%{-webkit-transform:translateX(-8px);transform:translateX(-8px)}}.scale-out-center{-webkit-animation:scale-out-center .5s cubic-bezier(.55,.085,.68,.53) both;animation:scale-out-center .5s cubic-bezier(.55,.085,.68,.53) both}@-webkit-keyframes scale-out-center{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}100%{-webkit-transform:scale(0);transform:scale(0);opacity:1}}@keyframes scale-out-center{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}100%{-webkit-transform:scale(0);transform:scale(0);opacity:1}}.fade-in{-webkit-animation:fade-in 0.4s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both}@-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}</style>
     <script src="/assets/js/dashboard.js" defer></script>
 </head>
 <body class="bg-black text-white">
-    <header class="flex items-center justify-between h-[100px] text-white">
-        <p class="translate-x-[150px] font-bold text-2xl uppercase">
+    <header class="flex items-center justify-around h-[100px] text-white">
+        <p class="font-bold text-2xl uppercase">
             Lukk<span class="text-[#6C63FF]">shield</span>
         </p>    
         <div class="space-x-4">
@@ -73,8 +73,11 @@ if(isset($_POST["regenerate-key"])) {
                     <button onclick="open_regenerate_modal()" type="submit" name="delete" class="w-[140px] h-[35px] bg-red-700 border-red-800 text-base border-2 rounded-md">Regenerate Key</button>
                     <?php endif; ?>
             </div>
-            <div class="translate-x-[-150px] flex justify-center items-center space-x-4">
-                    <form action="" method="POST"><button class="w-[80px] h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md" type="submit" name="logout">Logout</button></form>
+            <div class="flex justify-center items-center space-x-4">
+                <a href="./settings">
+                    <button class="pl-4 pr-4 h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md" name="logout">Settings</button>
+                </a>
+                <form action="" method="POST"><button class="w-[80px] h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md" type="submit" name="logout">Logout</button></form>
             </div>
     </header>
     <section id="section">  
