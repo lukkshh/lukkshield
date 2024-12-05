@@ -128,6 +128,7 @@ if(isset($_POST["submit"])){
       <p class="font-semibold">2024 © ALL RIGHTS RESERVED | LUKKSHIELD</p>
       <a href="">LUKKSHH</a>
     </footer>
+    <?php  require "../components/cookie-consent.php" ?>
   </body>
 </html>
 <?php unset($_SESSION["error"]); unset($_SESSION["p_error"]); ?>
