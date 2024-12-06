@@ -36,19 +36,19 @@ if(isset($_POST["login"])){
     <title>Lukkshield | Login</title>
   </head>
   <body class="bg-black font-roboto">
-    <header class="flex items-center justify-between h-[100px] text-white">
-      <p class="translate-x-[150px] font-bold text-2xl uppercase">
+    <header class="flex items-center justify-around h-[100px] text-white">
+      <p class="font-bold text-2xl uppercase">
         Lukk<span class="text-[#6C63FF]">shield</span>
       </p>
-      <ul class="translate-x-[-150px] flex space-x-8 text-2xl font-normal">
+      <ul class="flex space-x-8 text-2xl max-sm:text-base font-normal">
         <li><a href="/">Home</a></li>
         <li><a href="/privacy-policy">Privacy Policy</a></li>
       </ul>
     </header>
     <section class="flex justify-center items-center">
-      <div class="w-[450px] h-[550px] translate-y-12 rounded-3xl bg-[#222222]">
+      <div class="w-[450px] h-[550px] max-sm:w-[360px] max-sm:h-[525px] max-sm:translate-y-4 translate-y-12 rounded-3xl bg-[#222222]">
         <div class="flex space-x-4 items-center h-[155px]">
-          <img class="ml-8" src="/static/logo.svg" alt="Logo" />
+          <img class="ml-8 max-sm:ml-4" src="/static/logo.svg" alt="Logo" />
           <div class="h-1/2">
             <p class="text-white text-2xl font-semibold">
               LUKK<span class="text-[#6C63FF]">SHIELD</span> - Login
@@ -60,10 +60,10 @@ if(isset($_POST["login"])){
           method="POST"
           class="flex flex-col justify-center items-center space-y-6 mt-8"
         >
-          <div class="relative">
+          <div class="relative max-sm:w-[300px]">
             <input
               autocomplete="off"
-              class="peer p-4 placeholder-transparent outline-none text-white w-[390px] h-[55px] border-[#ffffff] border rounded-xl bg-transparent"
+              class="peer p-4 max-sm:w-[300px] placeholder-transparent outline-none text-white w-[390px] h-[55px] border-[#ffffff] border rounded-xl bg-transparent"
               id="email"
               name="email"
               type="email"
@@ -79,7 +79,7 @@ if(isset($_POST["login"])){
           <div class="relative">
             <input
               autocomplete="off"
-              class="peer p-4 placeholder-transparent outline-none text-white w-[390px] h-[55px] border-[#ffffff] border rounded-xl bg-transparent"
+              class="peer p-4 max-sm:w-[300px] placeholder-transparent outline-none text-white w-[390px] h-[55px] border-[#ffffff] border rounded-xl bg-transparent"
               id="password"
               name="password"
               type="password"
@@ -91,7 +91,7 @@ if(isset($_POST["login"])){
               >Password</label
             >
           </div>
-          <div class="w-[385px]">
+          <div class="w-[385px] max-sm:w-[300px]">
             <p class="text-white">
               Don't have an account?
               <a class="underline" href="/auth/signup">Sign Up</a>
@@ -109,7 +109,7 @@ if(isset($_POST["login"])){
       </div>
     </section>
     <footer
-      class="text-xl flex justify-around items-center absolute bottom-0 h-[100px] w-full text-white"
+      class="max-sm:hidden max-lg:hidden text-xl flex justify-around items-center absolute bottom-0 h-[100px] w-full text-white"
     >
       <a href="">Github Repository</a>
       <p class="font-semibold">2024 © ALL RIGHTS RESERVED | LUKKSHIELD</p>
