@@ -7,8 +7,12 @@ if(!isset($_SESSION["user"])) {
 
 use Auth\Auth;
 
+if(isset($_POST["logout"])){
+    $auth = new Auth();
+    $auth->logout();
+}
+
 if(isset($_POST["deactivate_acc"])){
-    
     $auth = new Auth();
     $auth->DeactivateAccount();
 }
@@ -34,12 +38,13 @@ if(isset($_POST["change_password"])){
       <p class=" font-bold text-2xl uppercase">
         Lukk<span class="text-[#6C63FF]">shield</span>
       </p>
-      <ul class="flex space-x-8 text-2xl font-normal">
+      <ul class="flex space-x-4 text-2xl font-normal">
         <li>
             <a href="/dashboard">
                 <button class="pl-4 pr-4 h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md">Dashboard</button>
             </a>
         </li>
+        <li><form action="" method="POST"><button class="w-[80px] h-[35px] text-base bg-gray-700 border-gray-800 border-2 rounded-md" type="submit" name="logout">Logout</button></form></li>
       </ul> 
     </header>
     <section class="text-white bg-[#222222] m-44 ml-[25rem] mr-[25rem] p-6 rounded-lg">
