@@ -119,10 +119,53 @@ class Auth {
         }
     }
 
-    public function DeleteUser($id) {
+    public function ChangePassword() {
+        
+        $stmt = $this->db->prepare("SELECT id,password FROM users WHERE id = :id");
+        $stmt->execute(array(":id" => $_SESSION["user"]));
 
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if(!password_verify($_POST["password"], $user["password"])) {
+            $_SESSION["p_error"] = "Invalid password!";
+            header("Location: /dashboard/settings");
+            die;
+        }
+
+        $new_password = $_POST["new-password"];
+    
+        if(strlen($new_password) < 8) {
+            $_SESSION["np_error"] = "Password must be at least 8 characters!";
+            header("Location: /dashboard/settings");
+            die;
+        }
+
+        if(strlen($new_password) >= 16){
+            $_SESSION["np_error"] = "Password must be less than 16 characters!";
+            header("Location: /dashboard/settings");
+            die;
+        }
+
+
+        $hashedPassword = password_hash($new_password, PASSWORD_DEFAULT);
+
+        $stmt = $this->db->prepare("UPDATE users SET password = :password WHERE id = :id");
+        $stmt->execute(array(":password" => $hashedPassword, ":id" => $_SESSION["user"]));
+
+        $_SESSION["success"] = "Password changed successfully!";
+        header("Location: /dashboard/settings");
+        die;
+    
     }
 
+    public function DeactivateAccount(){
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
+        $stmt->execute(array(":id" => $_SESSION["user"]));
+
+        session_destroy();
+        header("Location: /auth/login");
+        exit;
+    }
 
     public function DeleteUserCredential() {
         
